@@ -18,5 +18,34 @@
     <ClCompile Include="HL7Protocol.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="HL7Encoding.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageElement.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SubComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HL7Exception.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="HL7Encoding.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageElement.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SubComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

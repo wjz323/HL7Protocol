@@ -2,10 +2,27 @@
 //
 
 #include <iostream>
-
+#include <string>
+#include <sstream>
 int main()
 {
+    //int转换成string
+    int a = 13;
+    std::string str1 = "1|1|323|32131|3131|32131|";
+    int index = str1.find('^', 5);
+    //int 转换成16进制string
+   
+   
+    std::ostringstream oss;
+    oss << std::hex << a;
+    std::string v = oss.str();
+    std::cout <<v << std::endl;
+    std::string str = std::to_string(a);
+    std::cout << str << std::endl;
     std::cout << "Hello World!\n";
+    std::cout << index;
+    
+
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
