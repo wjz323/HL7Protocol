@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="HL7Encoding.cpp" />
     <ClCompile Include="HL7Protocol.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="SubComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="HL7Encoding.h" />
     <ClInclude Include="HL7Exception.h" />

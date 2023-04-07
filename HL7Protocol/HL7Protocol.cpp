@@ -4,26 +4,71 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
+#include "Component.h"
+
+void addVector(std::vector<int>& numList,int number,int position)
+{
+    int listCount=numList.size();
+    position= position - 1;
+    if (position < listCount)
+    {
+		numList[position] = number;
+	}
+    else
+    {
+        for (int i = listCount; i < position; i++)
+        {
+			numList.push_back(0);
+		}
+		numList.push_back(number);
+	}
+}
+
 int main()
 {
-    //int转换成string
-    int a = 13;
-    std::string str1 = "1|1|323|32131|3131|32131|";
-    int index = str1.find('^', 5);
-    //int 转换成16进制string
+    ////int转换成string
+    //int a = 13;
+    //std::string str1 = "1|1|323|32131|3131|32131|";
+    //int index = str1.find('^', 5);
+    ////int 转换成16进制string
    
    
-    std::ostringstream oss;
-    oss << std::hex << a;
-    std::string v = oss.str();
-    std::cout <<v << std::endl;
-    std::string str = std::to_string(a);
-    std::cout << str << std::endl;
-    std::cout << "Hello World!\n";
-    std::cout << index;
-    
+    //std::ostringstream oss;
+    //oss << std::hex << a;
+    //std::string v = oss.str();
+    //std::cout <<v << std::endl;
+    //std::string str = std::to_string(a);
+    //std::cout << str << std::endl;
+    //std::cout << "Hello World!\n";
+    //std::cout << index;
 
+    //string以某一字符分割成vector
+    std::string str2 = "1|1|323|32131|3131|32131|";
+    std::vector<std::string> v1;
+     Component *test=new Component();
+
+    v1=test->split(str2, '|');
+    for (int i = 0; i < v1.size(); i++)
+    {
+		std::cout << v1[i] << std::endl;
+	}
+    delete test;
+
+    //vector插入元素
+    std::vector<int> nList = std::vector<int>();
+    nList.push_back(1);
+    nList.push_back(2);
+    nList.push_back(3);
+    addVector(nList,8,2);
+    int wjz = 0;
 }
+
+
+
+
+
+
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
 // 调试程序: F5 或调试 >“开始调试”菜单
