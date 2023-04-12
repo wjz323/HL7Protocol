@@ -131,7 +131,9 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="HL7Encoding.cpp" />
     <ClCompile Include="HL7Protocol.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageElement.cpp" />
+    <ClCompile Include="Segment.cpp" />
     <ClCompile Include="SubComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +141,9 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="HL7Encoding.h" />
     <ClInclude Include="HL7Exception.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageElement.h" />
+    <ClInclude Include="Segment.h" />
     <ClInclude Include="SubComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
