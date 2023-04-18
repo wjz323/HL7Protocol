@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(NSwap VERSION 0.1.0)
+project(HL7 VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
@@ -12,7 +12,7 @@ add_subdirectory(src)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC swap)
+target_link_libraries(${PROJECT_NAME} PUBLIC hl7)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
                            ${PROJECT_BINARY_DIR}
