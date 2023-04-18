@@ -2,7 +2,7 @@
 #define MESSAGE_H
 #include "Component.h"
 #include "Field.h"
-#include <String>
+#include <string>
 #include <vector>
 #include <map>
 
