@@ -1,5 +1,4 @@
-#ifndef  MESSAGE_H
-#define MESSAGE_H
+#pragma once
 #include "Component.h"
 #include "Field.h"
 #include <string>
@@ -16,4 +15,3 @@ private:
 	std::vector<std::string> allSegemnts;
 	//std::map<std::string,std::vector<>>
 };
-#endif // ! MESSAGE_H

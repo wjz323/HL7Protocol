@@ -1,5 +1,4 @@
-#ifndef HL7FIELD_H
-#define HL7FIELD_H
+#pragma once
 
 #include "MessageElement.h"
 #include "Component.h"
@@ -33,6 +32,4 @@ protected:
 
 
 };
-
-#endif
 

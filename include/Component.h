@@ -1,5 +1,4 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#pragma once
 #include "MessageElement.h"
 #include "HL7Encoding.h"
 #include <vector>
@@ -28,5 +27,4 @@ public:
 
 
 };
-#endif // !COMPONENT_H\
 

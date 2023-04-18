@@ -1,5 +1,4 @@
-#ifndef SEGMENT_H
-#define SEGMENT_H
+#pragma once
 #include "MessageElement.h"
 #include <vector>
 #include "Field.h"
@@ -17,4 +16,3 @@ public:
 
 };
 
-#endif

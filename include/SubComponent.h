@@ -1,6 +1,4 @@
-
-#ifndef HL7SUBCOMPONENT_H
-#define HL7SUBCOMPONENT_H
+#pragma once
 #include "MessageElement.h"
 #include <string>
 class HL7SubComponent : public HL7MessageElement
@@ -14,8 +12,4 @@ protected:
 	void processValue() override;
 
 };
-
-
-
-#endif // !HL7SUBCOMPONENT_H
 

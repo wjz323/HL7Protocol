@@ -1,5 +1,4 @@
-#ifndef HL7ENCODING_H
-#define HL7ENCODING_H
+#pragma once
 
 #include <string>
 #include <sstream>
@@ -12,13 +11,13 @@ public:
 	std::string encode(const std::string& str);
 	std::string decode(const std::string& str);
 
-	char _fieldDelimiter = '|'; //×Ö¶Î·Ö¸ô·û
-	char _componentDelimiter = '^'; //×é¼þ·Ö¸ô·û
-	char _repetitionDelimiter = '~'; //ÖØ¸´·Ö¸ô·û
-	char _escapeCharacter = '\\'; //×ªÒå×Ö·û'
-	char _subComponentDelimiter = '&'; //×Ó×é¼þ·Ö¸ô·û
-	std::string _segmentDelimiter = "\r"; //¶ÎÖÕÖ¹·û
-	std::string _presentButNull="\"\""; //¿ÕÖµ
+	char _fieldDelimiter = '|'; //ï¿½Ö¶Î·Ö¸ï¿½ï¿½ï¿½
+	char _componentDelimiter = '^'; //ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
+	char _repetitionDelimiter = '~'; //ï¿½Ø¸ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
+	char _escapeCharacter = '\\'; //×ªï¿½ï¿½ï¿½Ö·ï¿½'
+	char _subComponentDelimiter = '&'; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
+	std::string _segmentDelimiter = "\r"; //ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½
+	std::string _presentButNull="\"\""; //ï¿½ï¿½Öµ
 	std::string allDelimiter() const;
 	void evaluateDelimiters(const std::string delimiters);
 	void evaluateSegmentDelimiter(const std::string message);
@@ -26,6 +25,4 @@ public:
 
 
 
-
-#endif
 
