@@ -10,7 +10,6 @@ set(SRC_LIST
         ./Message.cpp 
         ./MessageElement.cpp 
         ./Segment.cpp 
-        ./Field.cpp 
         ./SubComponent.cpp) 
 
 add_library(hl7 SHARED ${SRC_LIST})
