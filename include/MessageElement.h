@@ -1,6 +1,4 @@
-#ifndef HL7MESSAGEELEMENT_H
-#define HL7MESSAGEELEMENT_H
-
+#pragma once
 #include<string>
 #include "HL7Encoding.h"
 class HL7MessageElement
@@ -20,5 +18,3 @@ class HL7MessageElement
 };
 
 
-
-#endif

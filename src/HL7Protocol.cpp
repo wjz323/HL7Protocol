@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <math.h>
 #include "Component.h"
 #ifdef _DEBUG
 #pragma comment(lib,"E:\\Code\\HL7Protocol\\HL7Protocol\\x64\\Debug\\ClassLibrary1")

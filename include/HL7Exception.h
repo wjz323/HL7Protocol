@@ -1,5 +1,4 @@
-#ifndef HL7EXCEPTION_H
-#define HL7EXCEPTION_H
+#pragma once 
 
 #include <exception>
 #include <string>
@@ -22,5 +21,4 @@ public:
 	std::string m_what;
 };
 
-#endif
 
