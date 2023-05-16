@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include "HL7Encoding.h"
+#include "MsgHelper.h"
 class HL7MessageElement
 {
 

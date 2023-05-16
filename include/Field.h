@@ -22,7 +22,7 @@ public:
 	Component getComponent(int position) const;
 	bool removeEmptyTrailingComponents();
 	void addRepeatingField(HL7Field field);
-	void addVector(std::vector<Component>& componentList,Component componet,int position);
+	//void addVector(std::vector<Component>& componentList,Component componet,int position);
 
 private:
 	std::vector<HL7Field> _repetitionList;

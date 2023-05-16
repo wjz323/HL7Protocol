@@ -53,7 +53,7 @@ bool HL7Field::addNewComponent(Component com, int position)
 {
     try
     {
-        addVector(this->componentList,com,position);
+        MsgHelper::addVector(this->componentList,com,position,Component(com.encoding,false));
         return true;
     }
     catch (...)
@@ -112,25 +112,59 @@ void HL7Field::addRepeatingField(HL7Field field)
     }
 }
 
-void HL7Field::addVector(std::vector<Component>& componentList, Component componet, int position)
-{
-    int listCount = componentList.size();
-    position = position - 1;
-    if (position < listCount)
-    {
-        componentList[position] = componet;
-    }
-    else
-    {
-        for (int i = listCount; i < position; i++)
-        {
-            componentList.push_back(Component(componet.encoding,false));
-        }
-        componentList.push_back(componet);
-    }
-}
+// void HL7Field::addVector(std::vector<Component>& componentList, Component componet, int position)
+// {
+//     int listCount = componentList.size();
+//     position = position - 1;
+//     if (position < listCount)
+//     {
+//         componentList[position] = componet;
+//     }
+//     else
+//     {
+//         for (int i = listCount; i < position; i++)
+//         {
+//             componentList.push_back(Component(componet.encoding,false));
+//         }
+//         componentList.push_back(componet);
+//     }
+// }
 
 
 void HL7Field::processValue()
 {
+    if(this->isDelimitersField)
+    {
+        HL7SubComponent subcomponent=HL7SubComponent(_value,this->encoding);
+        this->componentList=std::vector<Component>();
+        Component component=Component(this->encoding,true);
+        component.subComponentList.push_back(subcomponent);
+        this->componentList.push_back(component);
+        return;
+    }
+    //查找判定是否正确 待确认。
+    this->hasRepetitions=this->_value.find(this->encoding->_repetitionDelimiter)!=std::string::npos;
+    if(this->hasRepetitions)
+    {
+        _repetitionList=std::vector<HL7Field>();
+        std::vector<std::string>  individualFields=MsgHelper::split(_value,this->encoding->_repetitionDelimiter);\
+        for (size_t i = 0; i < individualFields.size(); i++)
+        {
+           _repetitionList.push_back(HL7Field(individualFields[i],this->encoding));
+        }
+        
+    }
+    else
+    {
+        std::vector<std::string> allComponents=MsgHelper::split(_value,this->encoding->_componentDelimiter);
+        this->componentList=std::vector<Component>();
+        for (size_t i = 0; i < allComponents.size(); i++)
+        {
+            Component component(this->encoding);
+            component.setValue(allComponents[i]);
+            this->componentList.push_back(component);
+
+        }
+        this->isComponentized=this->componentList.size()>0;
+    }  
 }

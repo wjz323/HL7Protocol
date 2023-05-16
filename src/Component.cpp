@@ -51,7 +51,7 @@ void Component::processValue()
 	}
     else
     {
-        allSubComponents = this->split(this->getValue(),this->encoding->_subComponentDelimiter);
+        allSubComponents = MsgHelper::split(this->getValue(),this->encoding->_subComponentDelimiter);
 	}
     if (allSubComponents.size() > 1)
         this->isSubComponentized = true;
@@ -62,19 +62,19 @@ void Component::processValue()
    
 }
 
-std::vector<std::string> Component::split(std::string str, char delimiter)
-{
-    std::string::size_type pos;
-    std::vector<std::string> tokens;
-    int size = str.size();
-    for (int i = 0; i < size; i++)
-    {
-		pos = str.find(delimiter, i);
-        if (pos <size)
-        {
-			tokens.push_back(str.substr(i, pos-i));	
-            i = pos;
-		}      
-	}
-    return tokens;
-}
+// std::vector<std::string> Component::split(std::string str, char delimiter)
+// {
+//     std::string::size_type pos;
+//     std::vector<std::string> tokens;
+//     int size = str.size();
+//     for (int i = 0; i < size; i++)
+//     {
+// 		pos = str.find(delimiter, i);
+//         if (pos <size)
+//         {
+// 			tokens.push_back(str.substr(i, pos-i));	
+//             i = pos;
+// 		}      
+// 	}
+//     return tokens;
+// }
