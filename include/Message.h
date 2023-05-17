@@ -4,8 +4,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <regex>
 #include "Segment.h"
-class Message:HL7MessageElement
+class Message
 {
 public:
 	Message();
@@ -40,7 +41,8 @@ public:
 	std::vector<char> getMLLP(bool validate = false);
 private:
 	std::vector<std::string> allSegemnts;
-	const std::string segmentRegex = R"(^([A-Z][A-Z][A-Z1-9])([\(\[]([0-9]+)[\)\]]){0,1}$)";
+	
+	const std::string segmentRegex	=R"(^([A-Z][A-Z][A-Z1-9])([\(\[]([0-9]+)[\)\]]){0,1}$)";
     const std::string fieldRegex = R"(^([0-9]+)([\(\[]([0-9]+)[\)\]]){0,1}$)";
     const std::string otherRegEx = R"(^[1-9]([0-9]{1,2})?$)";
 	Message createAckMessage(std::string code, bool isNack, std::string errMsg, bool bypassValidation);
@@ -50,5 +52,6 @@ private:
 	void serializeField(HL7Field field, std::string& strMessage);
 	std::vector<Segment> getAllSegmentsInOrder();
 	bool validateValueFormat(std::vector<std::string> allComponents);
+	
 
 };

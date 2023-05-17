@@ -2,8 +2,14 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 namespace MsgHelper
 {
+
+    static std::string lineSeparators[] = { "\r\n", "\n\r", "\r", "\n" };
     template <typename T>
     void addVector(std::vector<T> &itemList, T item, int position, T emptyItem)
     {
@@ -23,7 +29,7 @@ namespace MsgHelper
         }
     }
     template <typename T>
-    std::vector<std::string> split(std::string str, T delimiter,bool removeEmpty=0)
+    std::vector<std::string> split(std::string str, T delimiter,bool removeEmpty=0,bool removeWhiteSpace=0)
     {
     std::string::size_type pos;
     std::vector<std::string> tokens;
@@ -34,7 +40,7 @@ namespace MsgHelper
         if (pos <size)
         {
             std::string subStr=str.substr(i, pos-i);
-            if(subStr==""&&removeEmpty)
+            if((subStr==""&&removeEmpty)||(subStr==" "&&removeWhiteSpace))
             {}
             else
 			    tokens.push_back(subStr);	
@@ -43,5 +49,18 @@ namespace MsgHelper
 	}
     return tokens;
     }
+
+    std::string LongDateWithFractionOfSecond()
+    {
+        auto t=std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::stringstream ss;
+        ss<<std::put_time(std::localtime(&t),"%Y%m%d%H%M%S");
+        
+        return ss.str();
+
+    }
+
+    
+
 }
 

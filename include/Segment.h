@@ -3,7 +3,7 @@
 #include <vector>
 #include "Field.h"
 #include "HL7Encoding.h"
-class Segment:HL7MessageElement
+class Segment:public HL7MessageElement
 {
 public:
 	Segment();
@@ -21,6 +21,9 @@ public:
 	std::vector<HL7Field> fieldList;
 	int sequenceNo;
 	std::string name;
+
+protected:
+	void processValue() override;
 
 };
 
