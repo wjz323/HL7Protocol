@@ -39,6 +39,8 @@ public:
 					   std::string receivingFacility,std::string security, std::string messageType, 
 					   std::string messageControlID, std::string processingID, std::string version);
 	std::vector<char> getMLLP(bool validate = false);
+
+	
 private:
 	std::vector<std::string> allSegemnts;
 	

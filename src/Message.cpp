@@ -518,10 +518,151 @@ std::vector<char> Message::getMLLP(bool validate)
     std::string hl7 = this->serializeMessage(validate);
     for (size_t i = 0; i < hl7.size(); i++)
     {
-      mllp.push_back(toascii(hl7[i]));
+        mllp.push_back(toascii(hl7[i]));
     }
-    mllp.insert(mllp.begin(),11);  //VT
-    mllp.push_back(28);//FS
-    mllp.push_back(13);//CR
-    
+    mllp.insert(mllp.begin(), 11); // VT
+    mllp.push_back(28);            // FS
+    mllp.push_back(13);            // CR
+
     return mllp;
+}
+
+Message Message::createAckMessage(std::string code, bool isNack, std::string errMsg, bool bypassValidation)
+{
+    std::string response = "";
+
+    if (this->messageStructure != "ACK")
+    {
+        auto dateString = MsgHelper::LongDateWithFractionOfSecond();
+        auto msh = this->segmentList["MSH"][0];
+        std::string delim(1, this->encoding->_fieldDelimiter);
+
+        response.append("MSH").append(this->encoding->allDelimiter()).append(delim).append(msh.fieldList[4].getValue()).append(delim).append(msh.fieldList[5].getValue()).append(delim).append(msh.fieldList[2].getValue()).append(delim).append(msh.fieldList[3].getValue()).append(delim).append(dateString).append(delim).append(delim).append("ACK").append(delim).append(this->messageControlID).append(delim).append(this->processingID).append(delim).append(this->version).append(this->encoding->_segmentDelimiter);
+
+        response.append("MSA").append(delim).append(code).append(delim).append(this->messageControlID).append((isNack ? delim + errMsg : "")).append(this->encoding->_segmentDelimiter);
+    }
+    else
+    {
+        return;
+    }
+
+    try
+    {
+        auto message = Message(response);
+        message.parseMessage(bypassValidation);
+        return message;
+    }
+    catch (...)
+    {
+        return;
+    }
+}
+
+HL7Field Message::getField(Segment segment, std::string index)
+{
+    int repetition = 0;
+
+    std::smatch matches;
+    std::regex r1(fieldRegex);
+    std::regex_match(index, matches, r1);
+
+    if (matches.size() < 1)
+        throw HL7Exception("Invalid field index");
+    int fieldIndex = std::stoi(matches[1]);
+    fieldIndex--;
+
+    if (matches.size() > 3)
+    {
+        repetition = std::stoi(matches[3]);
+        repetition--;
+    }
+
+    auto field = segment.fieldList[fieldIndex];
+
+    if (field.hasRepetitions)
+        return field.getRepetitionList()[repetition];
+    else if (repetition == 0)
+        return field;
+    else
+        return;
+}
+
+int Message::getFieldRepetitions(Segment segment, std::string index)
+{
+    std::smatch matches;
+    std::regex r1(fieldRegex);
+    std::regex_match(index, matches, r1);
+
+    if (matches.size() < 1)
+        return 0;
+
+    int fieldIndex = std::stoi(matches[1]);
+    fieldIndex--;
+
+    auto field = segment.fieldList[fieldIndex];
+
+    if (field.hasRepetitions)
+        return field.getRepetitionList().size();
+    else
+        return 1;
+}
+
+bool Message::validateMessage()
+{
+    return true;
+}
+
+void Message::serializeField(HL7Field field, std::string &strMessage)
+{
+    if (field.componentList.size() > 0)
+    {
+        int indexCom = 0;
+
+        for (size_t i = 0; i < field.componentList.size(); i++)
+        {
+            auto com = field.componentList[i];
+            indexCom++;
+            if (com.subComponentList.size() > 0)
+            {
+                for (size_t j = 0; j < com.subComponentList.size(); j++)
+                {
+                    strMessage.append(encoding->encode(com.subComponentList[i].getValue()));
+                    if (j < com.subComponentList.size() - 1)
+                        strMessage.append(std::string(1, encoding->_subComponentDelimiter));
+                }
+            }
+            else
+                strMessage.append(encoding->encode(com.getValue()));
+
+            if (indexCom < field.componentList.size())
+                strMessage.append(std::string(1, encoding->_componentDelimiter));
+        }
+    }
+    else
+        strMessage.append(encoding->encode(field.getValue()));
+}
+
+bool cmpVec(Segment a, Segment b)
+{
+    return a.sequenceNo > b.sequenceNo;
+}
+
+std::vector<Segment> Message::getAllSegmentsInOrder()
+{
+    std::vector<Segment> _list;
+    for (auto iter = segmentList.cbegin(); iter != segmentList.cend(); ++iter)
+    {
+        for (size_t i = 0; i < iter->second.size(); i++)
+        {
+            _list.push_back(iter->second[i]);
+        }
+    }
+
+    std::sort(_list.begin(), _list.end(), cmpVec);
+    return _list;
+}
+
+bool Message::validateValueFormat(std::vector<std::string> allComponents)
+{
+    return true;
+}
