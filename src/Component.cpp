@@ -51,7 +51,7 @@ void Component::processValue()
 	}
     else
     {
-        allSubComponents = MsgHelper::split(this->getValue(),this->encoding->_subComponentDelimiter);
+        allSubComponents = MsgHelper::splitString(this->getValue(),std::string(1,this->encoding->_subComponentDelimiter));
 	}
     if (allSubComponents.size() > 1)
         this->isSubComponentized = true;

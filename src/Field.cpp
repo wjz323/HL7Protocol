@@ -147,7 +147,7 @@ void HL7Field::processValue()
     if(this->hasRepetitions)
     {
         _repetitionList=std::vector<HL7Field>();
-        std::vector<std::string>  individualFields=MsgHelper::split(_value,this->encoding->_repetitionDelimiter);\
+        std::vector<std::string>  individualFields=MsgHelper::splitString(_value,std::string(1,this->encoding->_repetitionDelimiter));
         for (size_t i = 0; i < individualFields.size(); i++)
         {
            _repetitionList.push_back(HL7Field(individualFields[i],this->encoding));
@@ -156,7 +156,7 @@ void HL7Field::processValue()
     }
     else
     {
-        std::vector<std::string> allComponents=MsgHelper::split(_value,this->encoding->_componentDelimiter);
+        std::vector<std::string> allComponents=MsgHelper::splitString(_value,std::string(1,this->encoding->_componentDelimiter));
         this->componentList=std::vector<Component>();
         for (size_t i = 0; i < allComponents.size(); i++)
         {

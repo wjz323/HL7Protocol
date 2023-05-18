@@ -2,20 +2,25 @@
 
 Message::Message()
 {
+    encoding=new HL7Encoding;
 }
 
 Message::Message(std::string strMessage)
 {
+    hl7Message=strMessage;
+    encoding=new HL7Encoding;
 }
 
 Message::~Message()
 {
+    delete encoding;
+    encoding=nullptr;
 }
 
 bool Message::equals(std::string obj)
 {
-    std::vector<std::string> arr1 = MsgHelper::split(this->hl7Message, this->encoding->_segmentDelimiter, 1);
-    std::vector<std::string> arr2 = MsgHelper::split(this->hl7Message, this->encoding->_segmentDelimiter, 1);
+    std::vector<std::string> arr1 = MsgHelper::splitString(this->hl7Message, this->encoding->_segmentDelimiter, 1);
+    std::vector<std::string> arr2 = MsgHelper::splitString(this->hl7Message, this->encoding->_segmentDelimiter, 1);
     return arr1 == arr2;
 }
 
@@ -45,7 +50,7 @@ bool Message::parseMessage(bool bypassValidation)
         {
             if (this->allSegemnts.size() <= 0)
             {
-                this->allSegemnts = MsgHelper::split(hl7Message, MsgHelper::lineSeparators, 1, 1);
+                this->allSegemnts = MsgHelper::splitMsg(hl7Message,0);
             }
             int segSeqNo = 0;
             for (size_t i = 0; i < this->allSegemnts.size(); i++)
@@ -105,7 +110,7 @@ std::string Message::serializeMessage(bool validate)
                 if (_segListOrdered[i].fieldList.size() > 0)
                     strMessage += encoding->_fieldDelimiter;
                 int startField = currentSegName == "MSH" ? 1 : 0;
-                for (size_t m = 0; m < _segListOrdered[i].fieldList.size(); m++)
+                for (size_t m = startField; m < _segListOrdered[i].fieldList.size(); m++)
                 {
                     if (m > startField)
                         strMessage += encoding->_fieldDelimiter;
@@ -122,7 +127,9 @@ std::string Message::serializeMessage(bool validate)
                         {
                             if (n > 0)
                                 strMessage += encoding->_repetitionDelimiter;
-                            serializeField(field.getRepetitionList()[n], strMessage);
+                            std::vector<HL7Field>  fields=field.getRepetitionList();
+                            auto f=fields[0];
+                            serializeField(f, strMessage);
                         }
                     }
                     else
@@ -155,7 +162,7 @@ std::string Message::getValue(std::string strValueFormat)
     int componentIndex = 0;
     int subComponentIndex = 0;
     std::string strValue = "";
-    std::vector<std::string> allComponents = MsgHelper::split(strValueFormat, '.');
+    std::vector<std::string> allComponents = MsgHelper::splitString(strValueFormat, ".");
     int comCount = allComponents.size();
     bool isValid = validateValueFormat(allComponents);
     if (isValid)
@@ -166,7 +173,7 @@ std::string Message::getValue(std::string strValueFormat)
         if (matches.size() < 1)
             throw HL7Exception("Request format is not valid.");
         segmentName = matches[1]; // this is a point need test
-        if (matches.size() > 3)
+        if (matches[3].matched)
         {
             segmentOccurrence = std::stoi(matches[3]);
             segmentOccurrence--;
@@ -241,7 +248,7 @@ bool Message::setValue(std::string strValueFormat, std::string strValue)
     std::string segmentName = "";
     int componentIndex = 0;
     int subComponentIndex = 0;
-    std::vector<std::string> allComponents = MsgHelper::split(strValueFormat, '.');
+    std::vector<std::string> allComponents = MsgHelper::splitString(strValueFormat, ".");
     int comCount = allComponents.size();
     bool isValid = validateValueFormat(allComponents);
     if (isValid)
@@ -313,7 +320,7 @@ bool Message::isComponentized(std::string strValueFormat)
 {
     bool isComponentized = false;
     std::string segmentName = "";
-    std::vector<std::string> allComponents = MsgHelper::split(strValueFormat, '.');
+    std::vector<std::string> allComponents = MsgHelper::splitString(strValueFormat, ".");
     int comCount = allComponents.size();
     bool isValid = validateValueFormat(allComponents);
     if (isValid)
@@ -347,7 +354,7 @@ bool Message::hasRepetitions(std::string strValueFormat)
 {
     std::string segmentName = "";
 
-    std::vector<std::string> allComponents = MsgHelper::split(strValueFormat, '.');
+    std::vector<std::string> allComponents = MsgHelper::splitString(strValueFormat, ".");
     int comCount = allComponents.size();
     bool isValid = validateValueFormat(allComponents);
 
@@ -380,7 +387,7 @@ bool Message::isSubComponentized(std::string strValueFormat)
     bool isSubComponentized = false;
     std::string segmentName = "";
     int componentIndex = 0;
-    std::vector<std::string> allComponents = MsgHelper::split(strValueFormat, '.');
+    std::vector<std::string> allComponents = MsgHelper::splitString(strValueFormat, ".");
     int comCount = allComponents.size();
     bool isValid = validateValueFormat(allComponents);
 
@@ -492,7 +499,7 @@ Segment Message::defaultSegment(std::string segmentName)
 
 void Message::addSegmentMSH(std::string sendingApplication, std::string sendingFacility, std::string receivingApplication, std::string receivingFacility, std::string security, std::string messageType, std::string messageControlID, std::string processingID, std::string version)
 {
-    auto dateString = MsgHelper::LongDateWithFractionOfSecond();
+    auto dateString = MsgHelper::LongDateWithFractionOfSecond(0);
     auto delim = this->encoding->_fieldDelimiter;
 
     std::string response = "MSH" + this->encoding->allDelimiter() + delim +
@@ -533,7 +540,7 @@ Message Message::createAckMessage(std::string code, bool isNack, std::string err
 
     if (this->messageStructure != "ACK")
     {
-        auto dateString = MsgHelper::LongDateWithFractionOfSecond();
+        auto dateString = MsgHelper::LongDateWithFractionOfSecond(0);
         auto msh = this->segmentList["MSH"][0];
         std::string delim(1, this->encoding->_fieldDelimiter);
 
@@ -543,7 +550,7 @@ Message Message::createAckMessage(std::string code, bool isNack, std::string err
     }
     else
     {
-        return;
+        return Message();
     }
 
     try
@@ -554,7 +561,7 @@ Message Message::createAckMessage(std::string code, bool isNack, std::string err
     }
     catch (...)
     {
-        return;
+        return Message();
     }
 }
 
@@ -571,7 +578,7 @@ HL7Field Message::getField(Segment segment, std::string index)
     int fieldIndex = std::stoi(matches[1]);
     fieldIndex--;
 
-    if (matches.size() > 3)
+    if (matches[3].matched)
     {
         repetition = std::stoi(matches[3]);
         repetition--;
@@ -584,7 +591,7 @@ HL7Field Message::getField(Segment segment, std::string index)
     else if (repetition == 0)
         return field;
     else
-        return;
+        return NULL;
 }
 
 int Message::getFieldRepetitions(Segment segment, std::string index)
@@ -626,7 +633,7 @@ void Message::serializeField(HL7Field field, std::string &strMessage)
             {
                 for (size_t j = 0; j < com.subComponentList.size(); j++)
                 {
-                    strMessage.append(encoding->encode(com.subComponentList[i].getValue()));
+                    strMessage.append(encoding->encode(com.subComponentList[j].getValue()));
                     if (j < com.subComponentList.size() - 1)
                         strMessage.append(std::string(1, encoding->_subComponentDelimiter));
                 }
@@ -644,7 +651,7 @@ void Message::serializeField(HL7Field field, std::string &strMessage)
 
 bool cmpVec(Segment a, Segment b)
 {
-    return a.sequenceNo > b.sequenceNo;
+    return a.sequenceNo < b.sequenceNo;
 }
 
 std::vector<Segment> Message::getAllSegmentsInOrder()

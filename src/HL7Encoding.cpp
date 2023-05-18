@@ -4,9 +4,6 @@ HL7Encoding::HL7Encoding()
 {
 }
 
-HL7Encoding::~HL7Encoding()
-{
-}
 
 std::string HL7Encoding::encode(const std::string& str)
 {

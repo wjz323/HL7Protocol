@@ -44,7 +44,7 @@ public:
 private:
 	std::vector<std::string> allSegemnts;
 	
-	const std::string segmentRegex	=R"(^([A-Z][A-Z][A-Z1-9])([\(\[]([0-9]+)[\)\]]){0,1}$)";
+    const std::string segmentRegex	=R"(^([A-Z][A-Z][A-Z1-9])([\(\[]([0-9]+)[\)\]]){0,1}$)";
     const std::string fieldRegex = R"(^([0-9]+)([\(\[]([0-9]+)[\)\]]){0,1}$)";
     const std::string otherRegEx = R"(^[1-9]([0-9]{1,2})?$)";
 	Message createAckMessage(std::string code, bool isNack, std::string errMsg, bool bypassValidation);

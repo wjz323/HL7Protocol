@@ -7,8 +7,8 @@ HL7MessageElement::HL7MessageElement()
 
 HL7MessageElement::~HL7MessageElement()
 {
-   delete encoding;
-   encoding = nullptr;
+   //delete encoding;
+  // encoding = nullptr;
 }
 
 std::string HL7MessageElement::getValue() const

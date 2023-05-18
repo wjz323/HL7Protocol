@@ -82,7 +82,8 @@ int Segment::getSequenceNo()
 
 void Segment::processValue()
 {
-    std::vector<std::string> allFields = MsgHelper::split(_value, this->encoding->_fieldDelimiter);
+    char r=this->encoding->_fieldDelimiter;
+    std::vector<std::string> allFields = MsgHelper::splitString(_value, std::string(1,this->encoding->_fieldDelimiter));
     allFields.erase(allFields.begin());
     for (size_t i = 0; i < allFields.size(); i++)
     {
