@@ -1,4 +1,4 @@
-#include "Component.h"
+#include "include/Component.h"
 
 Component::Component()
 {

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <math.h>
-#include "Component.h"
+#include "include/Component.h"
 #ifdef _DEBUG
 #pragma comment(lib,"E:\\Code\\HL7Protocol\\HL7Protocol\\x64\\Debug\\ClassLibrary1")
 #else
@@ -106,17 +106,17 @@ struct CardInfo
 
 
 
-int main()
-{
+//int main()
+//{
     
-    std::cout <<"CardInfo " << sizeof(CardInfo) << std::endl;
-    std::cout << "float " << sizeof(float_t) << std::endl;
-    std::cout << "uint8 " << sizeof(uint8_t) << std::endl;
-    std::cout << "uin16 " << sizeof(uint16_t) << std::endl;
-    std::cout << "uint32 " << sizeof(uint32_t) << std::endl;
+//    std::cout <<"CardInfo " << sizeof(CardInfo) << std::endl;
+//    std::cout << "float " << sizeof(float_t) << std::endl;
+//    std::cout << "uint8 " << sizeof(uint8_t) << std::endl;
+//    std::cout << "uin16 " << sizeof(uint16_t) << std::endl;
+//    std::cout << "uint32 " << sizeof(uint32_t) << std::endl;
     
 
-}
+//}
 
 
 
