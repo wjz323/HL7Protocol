@@ -12,7 +12,6 @@ SOURCES += \
     src/Component.cpp \
     src/Field.cpp \
     src/HL7Encoding.cpp \
-    src/HL7Protocol.cpp \
     src/Message.cpp \
     src/MessageElement.cpp \
     src/MsgHelper.cpp \

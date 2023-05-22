@@ -19,9 +19,10 @@ Message::~Message()
 
 bool Message::equals(std::string obj)
 {
+    //使用equals对比
     std::vector<std::string> arr1 = MsgHelper::splitString(this->hl7Message, this->encoding->_segmentDelimiter, 1);
     std::vector<std::string> arr2 = MsgHelper::splitString(this->hl7Message, this->encoding->_segmentDelimiter, 1);
-    return arr1 == arr2;
+    return arr1==arr2;
 }
 
 bool Message::parseMessage(bool bypassValidation)
