@@ -16,7 +16,8 @@ SOURCES += \
     src/MessageElement.cpp \
     src/MsgHelper.cpp \
     src/Segment.cpp \
-    src/SubComponent.cpp
+    src/SubComponent.cpp \
+    src/lismessages.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,4 +33,5 @@ HEADERS += \
     include/MessageElement.h \
     include/MsgHelper.h \
     include/Segment.h \
-    include/SubComponent.h
+    include/SubComponent.h \
+    include/lismessages.h

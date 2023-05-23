@@ -2,6 +2,8 @@
 #include "include/Message.h"
 #include <QDebug>
 #include <QString>
+#include <QList>
+#include "include/lismessages.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -49,12 +51,26 @@ PID|1||14^^^IA PHIMS Stage&2.16.840.1.114222.4.3.3.5.1.2&ISO^PI^IA Public Health
     qDebug()<<QString::fromStdString(msg.getValue("OBR(1).8"));
     qDebug()<<QString::fromStdString(msg.getValue("OBR(2).8"));
     qDebug()<<QString::fromStdString(s[0].fields(8).getValue());
+    qDebug()<<QString::fromStdString(msg.getValue("MSH.8"));
 
     //send the char array by tcp.
     std::vector<char> sendMessage=msg.getMLLP();
     for (int var = 0; var < sendMessage.size(); ++var) {
         qDebug()<<sendMessage[var];
     }
+
+
+    //example 3 use Lis Messages
+    LisMessages lisMsgs;
+    // get sample info by sample id
+    Message msg2=lisMsgs.SampleRequestMessage("12345");
+
+    //send the "msg2.getMLLP()" list to Lis by tcp;
+    //get the string from tcp response.
+    SampleInfo sampleInfo= lisMsgs.SampleResponseMessage("a string");
+    AssayInfo asy;
+    lisMsgs.ResultSendMessage(asy,1);
+
 
 
 
